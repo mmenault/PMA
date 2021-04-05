@@ -46,18 +46,3 @@ class NonPlayableCharacter(Character):
     def __init__(self,name,race,level,loot):
         super().__init__(name,race,level)
         self.loot = loot
-
-
-
-michel = Character("Michel","Human",1)
-michel.setStats(10,10,16,8,8,12)
-
-jean = PlayableCharacter("Jean","Dwarf","Warrior")
-jean.setStats(16,12,16,6,6,8)
-
-jack = NonPlayableCharacter("Jack","Goblin", 0,"Spear")
-jack.setStats(8,8,10,4,4,6)
-
-print(michel)
-print(jean)
-print(jack)
