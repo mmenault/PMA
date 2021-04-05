@@ -1,6 +1,9 @@
+from PMA_BackEnd.src.PMA_Item.Item import Item
+
+
 class Armor(Item):
-    def __init__(self,name,price,type,acBonus,dexCap,checkPenalty,speedPenalty,strength,bulk,trait):
-        super().__init__(name,price)
+    def __init__(self, name, price, type, acBonus, dexCap, checkPenalty, speedPenalty, strength, bulk, trait):
+        super().__init__(name, price)
         self.type = type
         self.acBonus = acBonus
         self.dexCap = dexCap
@@ -21,7 +24,7 @@ class Armor(Item):
 
     def getCheckPenalty(self):
         return self.checkPenalty
-    
+
     def getSpeedPenalty(self):
         return self.speedPenalty
 

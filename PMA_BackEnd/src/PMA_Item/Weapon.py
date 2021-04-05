@@ -1,6 +1,9 @@
+from PMA_BackEnd.src.PMA_Item.Item import Item
+
+
 class Weapon(Item):
-    def __init__(self,name,price,damage,bulk,hand,group,trait):
-        super().__init__(name,price)
+    def __init__(self, name, price, damage, bulk, hand, group, trait):
+        super().__init__(name, price)
         self.damage = damage
         self.bulk = bulk
         self.hand = hand
