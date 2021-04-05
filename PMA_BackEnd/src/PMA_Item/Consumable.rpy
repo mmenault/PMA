@@ -1,0 +1,2 @@
+class Consumable(Item):
+    
