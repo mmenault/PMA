@@ -3,6 +3,11 @@ class Character:
         self.name = name
         self.race = race
         self.level = level
+        self.equippedItem = [None]
+        self.equippedWeapon = None
+
+    def __str__(self):
+        return self.name+" : "+self.race+" level "+str(self.level)
 
     def setStats(self,strenght,dexterity,constitution,intelligence,wisdom,charisma):
         self.strenght = strenght
@@ -12,8 +17,18 @@ class Character:
         self.wisdom = wisdom
         self.charisma = charisma
 
-    def __str__(self):
-        return self.name+" : "+self.race+" level "+str(self.level)
+    def setMaxHP(self,maxHP):
+        self.maxHP = maxHP
+        self.HP = maxHP
+
+    def equipItem(self,item):
+        self.equippedItem.append(item)
+
+    def equipWeapon(self,weapon):
+        self.equippedWeapon = weapon
+
+    def isAlive(self):
+        return True if self.HP > 0 else False
 
 class PlayableCharacter(Character):
     def __init__(self,name,race,playerClass):
@@ -25,10 +40,14 @@ class PlayableCharacter(Character):
     def __str__(self):
         return self.name+" : "+self.playerClass+" "+self.race+" level "+str(self.level)
 
+
+
 class NonPlayableCharacter(Character):
     def __init__(self,name,race,level,loot):
         super().__init__(name,race,level)
         self.loot = loot
+
+
 
 michel = Character("Michel","Human",1)
 michel.setStats(10,10,16,8,8,12)
