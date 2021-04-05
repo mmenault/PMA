@@ -17,6 +17,5 @@ def fight_dices(dices):
     damage_type = dices[0]
     dices = dices[1:]
     Tab = dices.split('+')
-    for i in range(len(Tab)):
-        Tab[i] = Tab[i].split('d')
+    Tab = [i.split('d') for i in Tab]
     print(Tab)
