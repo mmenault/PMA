@@ -61,3 +61,11 @@ jack.setStats(8,8,10,4,4,6)
 print(michel)
 print(jean)
 print(jack)
+
+dices = "P1d8+1d6+3"
+damage_type = dices[0]
+dices = dices[1:]
+Tab = dices.split('+')
+for i in range(len(Tab)):
+    Tab[i] = Tab[i].split('d')
+print(Tab)

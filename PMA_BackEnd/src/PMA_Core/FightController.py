@@ -13,7 +13,10 @@ def fight(allie,enemy):
         print("Ouch ! coup dur, t'as perdu")
 
 def fight_dices(dices):
-    # P1d4+1d8+3 
-    # [BPS]?([0-9]+d[0-9]+)|([0-9])
 
     damage_type = dices[0]
+    dices = dices[1:]
+    Tab = dices.split('+')
+    for i in range(len(Tab)):
+        Tab[i] = Tab[i].split('d')
+    print(Tab)
