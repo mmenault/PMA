@@ -16,9 +16,11 @@ class Character:
         return self.name+" : "+self.race+" level "+str(self.level)
 
 class PlayableCharacter(Character):
-    def __init__(self,name,race,level,playerClass):
-        super().__init__(name,race,level)
+    def __init__(self,name,race,playerClass):
+        super().__init__(name,race,1)
         self.playerClass = playerClass
+        self.experience = 0
+        self.money = 1500
     
     def __str__(self):
         return self.name+" : "+self.playerClass+" "+self.race+" level "+str(self.level)
@@ -31,7 +33,7 @@ class NonPlayableCharacter(Character):
 michel = Character("Michel","Human",1)
 michel.setStats(10,10,16,8,8,12)
 
-jean = PlayableCharacter("Jean","Dwarf",1,"Warrior")
+jean = PlayableCharacter("Jean","Dwarf","Warrior")
 jean.setStats(16,12,16,6,6,8)
 
 jack = NonPlayableCharacter("Jack","Goblin", 0,"Spear")
