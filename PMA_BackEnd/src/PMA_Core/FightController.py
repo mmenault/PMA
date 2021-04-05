@@ -13,8 +13,9 @@ def fight(allies, enemies):
             if i[1].isAlive():
                 target = select_target(enemies) if i[1] in allies else select_target(allies)
                 target.HP = target.HP - fight_dices(i[1].equippedWeapon.getDamage())
-        a = sum([1 if i.isAlive() else 0 for i in allies]) != 0
-        e = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
+            a = sum([1 if i.isAlive() else 0 for i in allies]) != 0
+            e = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
+            if not (a and e): break
     if a: print("C'est les gentils qui ont gagnés !")
     if e: print("Ouch ! coup dur, t'as perdu")
 
@@ -40,8 +41,8 @@ def fight_dices(dices):
 
 
 def sort_initiatives(characters):
-    initiatives = [(throw_dice(20) + i.dexterity, i) for i in characters]
-    initiatives.sort()
+    initiatives = [[throw_dice(20) + i.dexterity, i] for i in characters]
+    initiatives = sorted(initiatives)
     return initiatives
 
 
@@ -51,7 +52,12 @@ jean.setStats(16, 12, 16, 6, 6, 8)
 jean.setMaxHP(20)
 epee = Weapon("Sword", 15, "P1d8+3", 1, 1, "", "")
 jean.equipWeapon(epee)
-players = [jean]
+
+david = PlayableCharacter("Jean", "Dwarf", "Warrior")
+david.setStats(16, 12, 16, 6, 6, 8)
+david.setMaxHP(20)
+david.equipWeapon(epee)
+players = [jean, david]
 
 jack = NonPlayableCharacter("Jack", "Goblin", 0, "Spear")
 jack.setStats(8, 8, 10, 4, 4, 6)
