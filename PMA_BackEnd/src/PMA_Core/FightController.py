@@ -14,14 +14,6 @@ def fight(allie,enemy):
 
 def fight_dices(dices):
     # P1d4+1d8+3 
+    # [BPS]?([0-9]+d[0-9]+)|([0-9])
+
     damage_type = dices[0]
-
-    finished = False
-    i = 1
-    dice_number = 0
-    dice_size = 0
-    damages = 0
-
-    while not finished:
-        if dices[i] in ['0','1','2','3','4','5','6','7','8','9']:
-            chiffre = dices[i]
