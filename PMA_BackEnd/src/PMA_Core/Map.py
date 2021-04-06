@@ -1,3 +1,6 @@
+from math import inf
+
+
 def getDistBetweenTwoCases(string, string2):
     return abs(ord(string[:1]) - ord(string2[:1])) + abs(ord(string[1:]) - ord(string2[1:]))
 
@@ -58,3 +61,8 @@ class Map:
             if self.mapOfEntities[i] == entity:
                 return i
         return None
+
+    def getShootingDistanceBetweenEntities(self, EntityOne, EntityTwo):
+        distOne = self.getMinWalkDistBetweenEntityAndCase(EntityOne, self.getEntityCase(EntityTwo))
+        distTwo = self.getFlyDistanceBetweenEntityAndCase(EntityOne, self.getEntityCase(EntityTwo))
+        return inf if not distTwo == distOne else distTwo
