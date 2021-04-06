@@ -66,3 +66,7 @@ class Map:
         distOne = self.getMinWalkDistBetweenEntityAndCase(EntityOne, self.getEntityCase(EntityTwo))
         distTwo = self.getFlyDistanceBetweenEntityAndCase(EntityOne, self.getEntityCase(EntityTwo))
         return inf if not distTwo == distOne else distTwo
+
+    def moveAnEntity(self, EntityOne, Case):
+        self.mapOfEntities[Case] = self.mapOfEntities[self.getEntityCase(EntityOne)]
+        self.mapOfEntities[self.getEntityCase(EntityOne)] = None
