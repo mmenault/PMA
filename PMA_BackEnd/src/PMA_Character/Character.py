@@ -7,6 +7,7 @@ class Character:
         self.equippedWeapon = None
         self.equippedArmor = None
         self.acMastery = 0
+        self.setStats(10,10,10,10,10,10)
 
     def __str__(self):
         return self.name + " : " + self.race + " level " + str(self.level)
@@ -63,8 +64,3 @@ class NonPlayableCharacter(Character):
     def __init__(self, name, race, level, loot):
         super().__init__(name, race, level)
         self.loot = loot
-
-michel = PlayableCharacter("Michel","Dwarf","Warrior")
-michel.setStats(8,14,12,14,16,8)
-michel.setAcMastery(3)
-print(michel.ac())
