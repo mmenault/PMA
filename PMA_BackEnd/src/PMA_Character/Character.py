@@ -5,9 +5,23 @@ class Character:
         self.level = level
         self.equippedItem = [None]
         self.equippedWeapon = None
+        self.equippedArmor = None
+        self.acMastery = 0
 
     def __str__(self):
         return self.name + " : " + self.race + " level " + str(self.level)
+
+    def statModif(self, stat):
+        return int((stat-10)/2)
+
+    def setAcMastery(self,value):
+        self.acMastery = value
+
+    def ac(self):
+        ac = 10 + self.statModif(self.dexterity) + self.acMastery
+        if self.equippedArmor:
+            ac + self.equippedArmor.acBonus
+        return ac
 
     def setStats(self, strenght, dexterity, constitution, intelligence, wisdom, charisma):
         self.strenght = strenght
@@ -26,6 +40,9 @@ class Character:
 
     def equipWeapon(self, weapon):
         self.equippedWeapon = weapon
+
+    def equipArmor(self, armor):
+        self.equippedArmor = armor
 
     def isAlive(self):
         return True if self.HP > 0 else False
@@ -46,3 +63,8 @@ class NonPlayableCharacter(Character):
     def __init__(self, name, race, level, loot):
         super().__init__(name, race, level)
         self.loot = loot
+
+michel = PlayableCharacter("Michel","Dwarf","Warrior")
+michel.setStats(8,14,12,14,16,8)
+michel.setAcMastery(3)
+print(michel.ac())
