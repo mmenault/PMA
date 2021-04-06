@@ -20,8 +20,8 @@ class Map:
     def __init__(self, walls, entities, size_x, size_y):
         self.mapOfEntities = {}
         self.map = {}
-        for x in size_x:
-            for y in size_y:
+        for x in range(size_x):
+            for y in range(size_y):
                 case = chr(ord('A') + x) + chr(ord('1') + y)
                 if not (case in walls):
                     if case in entities:

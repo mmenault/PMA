@@ -3,9 +3,10 @@ import time
 
 from PMA_BackEnd.src.PMA_Character.Character import *
 from PMA_BackEnd.src.PMA_Item.Weapon import *
+from Map import *
 
 
-def fight(allies, enemies):
+def fight(mapE, allies, enemies):
     order = sort_initiatives(allies + enemies)
     a, e = True, True
     while a and e:
@@ -65,4 +66,6 @@ jack.setMaxHP(20)
 jack.equipWeapon(epee)
 monsters = [jack]
 
-fight(players, monsters)
+my_map = Map({}, {'A1': jean, 'A2': david, 'D5': jack}, 6, 6)
+
+fight(my_map, players, monsters)
