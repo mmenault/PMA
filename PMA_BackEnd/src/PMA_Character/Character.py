@@ -8,6 +8,7 @@ class Character:
         self.equippedArmor = None
         self.acMastery = 0
         self.setStats(10,10,10,10,10,10)
+        self.speed = 6
 
     def __str__(self):
         return self.name + " : " + self.race + " level " + str(self.level)
