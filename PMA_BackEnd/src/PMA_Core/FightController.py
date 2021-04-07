@@ -12,23 +12,39 @@ def fight(mapE, allies, enemies):
     while alliesAlive and enemiesAlive:
         for player in order:
             if player.isAlive():
-                target = select_target(enemies) if player in allies else select_target(allies)
-                # TODO Touch modifier
-                damage = fight_dices(player.equippedWeapon.getDamage(), attack_effect(player.ac(), 0))
-                target.HP = target.HP - damage
-                print(player.name+" a infligé " + str(damage) + " dégâts à "+target.name)
-            alliesAlive = sum([1 if i.isAlive() else 0 for i in allies]) != 0
-            enemiesAlive = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
-            if not (alliesAlive and enemiesAlive): break
+
+                nb_actions = 3
+                while nb_actions:
+                    target = select_target(player, enemies, mapE) if player in allies else select_target(player, allies, mapE)
+                    if target[0] == 1:
+                        # TODO Touch modifier
+                        damage = fight_dices(player.equippedWeapon.getDamage(), attack_effect(player.ac(), 0))
+                        target[1].HP = target[1].HP - damage
+                        print(player.name+" a infligé " + str(damage) + " dégâts à "+target[1].name)
+                        alliesAlive = sum([1 if i.isAlive() else 0 for i in allies]) != 0
+                        enemiesAlive = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
+                        if not (alliesAlive and enemiesAlive): break
+                    else:
+                        # TODO Modify to take into account the speed of travel
+                        possible_move = mapE.getSons(mapE.getEntityCase(target[1]))
+                        if len(possible_move) > 0:
+                            choice = random.randint(0, len(possible_move)-1)
+                            print(player.name + " s'est déplacé en " + str(possible_move[choice]))
+                            mapE.moveAnEntity(player, possible_move[choice])
+                    nb_actions -= 1
+
+        if not (alliesAlive and enemiesAlive): break
     if alliesAlive: print("C'est les gentils qui ont gagnés !")
     if enemiesAlive: print("Ouch ! coup dur, t'as perdu")
 
 
-def select_target(others):
+def select_target(player, others, mapE):
     others = others.copy()
     for i in others:
         if not i.isAlive(): others.remove(i)
-    return others[random.randint(0, len(others)-1)]
+    nearest = [(mapE.getMinWalkDistBetweenEntityAndCase(player, mapE.getEntityCase(i)), i) for i in others]
+    nearest = min(nearest, key=lambda x: x[0])
+    return nearest
 
 
 def throw_dice(dice):
@@ -86,6 +102,6 @@ raoul.setMaxHP(20)
 raoul.equipWeapon(epee)
 monsters = [jack, raoul]
 
-my_map = Map({}, {'A1': jean, 'A2': david, 'D5': jack, 'E1': raoul}, 6, 6)
+my_map = Map({}, {'A2': jean, 'A4': david, 'D5': jack, 'E1': raoul}, 6, 6)
 
 fight(my_map, players, monsters)

@@ -68,5 +68,14 @@ class Map:
         return inf if not distTwo == distOne else distTwo
 
     def moveAnEntity(self, EntityOne, Case):
-        self.mapOfEntities[Case] = self.mapOfEntities[self.getEntityCase(EntityOne)]
         self.mapOfEntities[self.getEntityCase(EntityOne)] = None
+        self.mapOfEntities[Case] = EntityOne
+
+    def getSons(self, string):
+        l1 = []
+        for i in ([-1, 1]):
+            w = chr(ord(string[:1]) + i) + string[1:]
+            b = string[:1] + chr(ord(string[1:]) + i)
+            l1.append(w) if w in self.mapOfEntities and self.mapOfEntities[w] is None else None
+            l1.append(b) if b in self.mapOfEntities and self.mapOfEntities[b] is None else None
+        return l1
