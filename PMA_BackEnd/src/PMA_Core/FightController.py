@@ -16,7 +16,7 @@ def fight(mapE, allies, enemies):
                 # TODO Touch modifier
                 damage = fight_dices(player.equippedWeapon.getDamage(), attack_effect(player.ac(), 0))
                 target.HP = target.HP - damage
-                print(player.name+" a infligé "+ str(damage) + " dégâts à "+target.name)
+                print(player.name+" a infligé " + str(damage) + " dégâts à "+target.name)
             alliesAlive = sum([1 if i.isAlive() else 0 for i in allies]) != 0
             enemiesAlive = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
             if not (alliesAlive and enemiesAlive): break
@@ -58,7 +58,7 @@ def fight_dices(dices, effect):
 
 def sort_initiatives(characters):
     initiatives = [[throw_dice(20) + i.dexterity, i] for i in characters]
-    initiatives = sorted(initiatives)
+    initiatives = sorted(initiatives, key=lambda x: x[0])
     return [i[1] for i in initiatives]
 
 
@@ -84,8 +84,8 @@ raoul = NonPlayableCharacter("Raoul", "Goblin", 0, "Spear")
 raoul.setStats(8, 8, 10, 4, 4, 6)
 raoul.setMaxHP(20)
 raoul.equipWeapon(epee)
-monsters = [jack,raoul]
+monsters = [jack, raoul]
 
-my_map = Map({}, {'A1': jean, 'A2': david, 'D5': jack}, 6, 6)
+my_map = Map({}, {'A1': jean, 'A2': david, 'D5': jack, 'E1': raoul}, 6, 6)
 
 fight(my_map, players, monsters)
