@@ -8,17 +8,20 @@ from Map import *
 
 def fight(mapE, allies, enemies):
     order = sort_initiatives(allies + enemies)
-    a, e = True, True
-    while a and e:
-        for i in order:
-            if i[1].isAlive():
-                target = select_target(enemies) if i[1] in allies else select_target(allies)
-                target.HP = target.HP - fight_dices(i[1].equippedWeapon.getDamage())
-            a = sum([1 if i.isAlive() else 0 for i in allies]) != 0
-            e = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
-            if not (a and e): break
-    if a: print("C'est les gentils qui ont gagnés !")
-    if e: print("Ouch ! coup dur, t'as perdu")
+    alliesAlive, enemiesAlive = True, True
+    while alliesAlive and enemiesAlive:
+        for player in order:
+            if player.isAlive():
+                target = select_target(enemies) if player in allies else select_target(allies)
+                # TODO Touch modifier
+                damage = fight_dices(player.equippedWeapon.getDamage(), attack_effect(player.ac(), 0))
+                target.HP = target.HP - damage
+                print(player.name+" a infligé "+ str(damage) + " dégâts à "+target.name)
+            alliesAlive = sum([1 if i.isAlive() else 0 for i in allies]) != 0
+            enemiesAlive = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
+            if not (alliesAlive and enemiesAlive): break
+    if alliesAlive: print("C'est les gentils qui ont gagnés !")
+    if enemiesAlive: print("Ouch ! coup dur, t'as perdu")
 
 
 def select_target(others):
@@ -32,12 +35,24 @@ def throw_dice(dice):
     return random.randint(1, dice)
 
 
-def fight_dices(dices):
+def attack_effect(defence, touch):
+    if throw_dice(20) + touch - defence > 10:
+        return 2
+    if throw_dice(20) + touch - defence < -10 or throw_dice(20) + touch < defence:
+        return 0
+    return 1
+
+
+def fight_dices(dices, effect):
     damages = 0
-    damage_type = dices[0]
+    if not effect:
+        return damages
     tab = [i.split('d') for i in dices[1:].split('+')]
     for i in tab:
-        damages += sum([throw_dice(int(i[1]))] * int(i[0])) if len(i) == 2 else int(i[0])
+        if len(i) == 2:
+            damages += sum([throw_dice(int(i[1])) for j in range(int(i[0])*effect)])
+        elif effect:
+            damages += int(i[0])
     return damages
 
 
@@ -54,7 +69,7 @@ jean.setMaxHP(20)
 epee = Weapon("Sword", 15, "P1d8+3", 1, 1, "", "")
 jean.equipWeapon(epee)
 
-david = PlayableCharacter("Jean", "Dwarf", "Warrior")
+david = PlayableCharacter("David", "Dwarf", "Warrior")
 david.setStats(16, 12, 16, 6, 6, 8)
 david.setMaxHP(20)
 david.equipWeapon(epee)
@@ -64,7 +79,12 @@ jack = NonPlayableCharacter("Jack", "Goblin", 0, "Spear")
 jack.setStats(8, 8, 10, 4, 4, 6)
 jack.setMaxHP(20)
 jack.equipWeapon(epee)
-monsters = [jack]
+
+raoul = NonPlayableCharacter("Raoul", "Goblin", 0, "Spear")
+raoul.setStats(8, 8, 10, 4, 4, 6)
+raoul.setMaxHP(20)
+raoul.equipWeapon(epee)
+monsters = [jack,raoul]
 
 my_map = Map({}, {'A1': jean, 'A2': david, 'D5': jack}, 6, 6)
 

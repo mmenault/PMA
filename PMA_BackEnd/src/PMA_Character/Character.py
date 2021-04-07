@@ -5,9 +5,8 @@ class Character:
         self.level = level
         self.equippedItem = [None]
         self.equippedWeapon = None
-        self.equippedArmor = None
         self.acMastery = 0
-        self.setStats(10,10,10,10,10,10)
+        self.setStats(10, 10, 10, 10, 10, 10)
         self.speed = 6
 
     def __str__(self):
@@ -21,8 +20,9 @@ class Character:
 
     def ac(self):
         ac = 10 + self.statModif(self.dexterity) + self.acMastery
-        if self.equippedArmor:
-            ac + self.equippedArmor.acBonus
+        for i in self.equippedItem:
+            if i != None:
+                ac += i.acBonus
         return ac
 
     def setStats(self, strenght, dexterity, constitution, intelligence, wisdom, charisma):
@@ -42,9 +42,6 @@ class Character:
 
     def equipWeapon(self, weapon):
         self.equippedWeapon = weapon
-
-    def equipArmor(self, armor):
-        self.equippedArmor = armor
 
     def isAlive(self):
         return True if self.HP > 0 else False
