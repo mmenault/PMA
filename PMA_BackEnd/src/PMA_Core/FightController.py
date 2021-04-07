@@ -59,7 +59,7 @@ def fight_dices(dices, effect):
 def sort_initiatives(characters):
     initiatives = [[throw_dice(20) + i.dexterity, i] for i in characters]
     initiatives = sorted(initiatives)
-    return initiatives
+    return [i[1] for i in initiatives]
 
 
 random.seed(time.time())
