@@ -12,17 +12,18 @@ def fight(mapE, allies, enemies):
     while alliesAlive and enemiesAlive:
         for player in order:
             if player.isAlive():
-
+                nb_attacks = 0
                 nb_actions = 3
                 while nb_actions:
                     target = select_target(player, enemies, mapE) if player in allies else select_target(player, allies, mapE)
                     if target[0] == 1:
                         # TODO Touch modifier
-                        damage = fight_dices(player.equippedWeapon.getDamage(), attack_effect(player.ac(), 0))
+                        damage = fight_dices(player.equippedWeapon.getDamage(), attack_effect(player.ac(), 0, nb_attacks))
                         target[1].HP = target[1].HP - damage
                         print(player.name+" a infligé " + str(damage) + " dégâts à "+target[1].name)
                         alliesAlive = sum([1 if i.isAlive() else 0 for i in allies]) != 0
                         enemiesAlive = sum([1 if i.isAlive() else 0 for i in enemies]) != 0
+                        nb_attacks += 1
                         if not (alliesAlive and enemiesAlive): break
                     else:
                         # TODO Modify to take into account the speed of travel
@@ -51,10 +52,10 @@ def throw_dice(dice):
     return random.randint(1, dice)
 
 
-def attack_effect(defence, touch):
-    if throw_dice(20) + touch - defence > 10:
+def attack_effect(defence, touch, nb_attacks):
+    if throw_dice(20) + touch - defence - 5 * nb_attacks > 10:
         return 2
-    if throw_dice(20) + touch - defence < -10 or throw_dice(20) + touch < defence:
+    if throw_dice(20) + touch - defence - 5 * nb_attacks < -10 or throw_dice(20) + touch - 5 * nb_attacks < defence:
         return 0
     return 1
 
